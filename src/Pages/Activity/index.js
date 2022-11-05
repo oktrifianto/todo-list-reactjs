@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ActivityCard from '../../Components/Activity/ActivityCard';
 import AddButton from '../../Components/Button/AddButton';
 import EmptyActivity from '../../Components/Activity/EmptyActivity';
-import { checkTotalActivity } from '../../Services/activity.services';
+import { checkTotalActivity, createActivity } from '../../Services/activity.services';
 
 export default function Activity(){
   const [total, setTotal] = useState("");
@@ -16,7 +16,14 @@ export default function Activity(){
         setAct(data.data);
       }
     });
-  }, []);
+  }, [total]);
+
+  const addActivity = async () => {
+    const result = await createActivity();
+    if (result.status === 201){
+      console.log('Sukses bikin activity group');
+    } 
+  }
   
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
@@ -24,7 +31,7 @@ export default function Activity(){
       {/* berisi judul dan tombol tambah */}
       <div className="todo-header flex justify-between mt-12 mb-14">
         <h1 className="text-4xl font-bold">Activity</h1>
-        <AddButton />
+        <AddButton isClickButton={addActivity} />
       </div>
       {/* ------ todo content dashboard */}
       { total <= 0 ? <EmptyActivity /> : 
