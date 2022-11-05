@@ -1,13 +1,23 @@
-// import EmptyActivityImage from '../../Assets/Images/activity.png';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ActivityCard from '../../Components/Activity/ActivityCard';
 import AddButton from '../../Components/Button/AddButton';
-
-// todo : useEffect to load data
-// jika total < 0 === load image 
-// else ... load data
+import EmptyActivity from '../../Components/Activity/EmptyActivity';
+import { checkTotalActivity } from '../../Services/activity.services';
 
 export default function Activity(){
+  const [total, setTotal] = useState("");
+  const [act, setAct] = useState({});
+
+  useEffect(() => {
+    checkTotalActivity().then( data => {
+      setTotal(data.total);
+      if (data.total > 0){
+        setAct(data.data);
+      }
+    });
+  }, []);
+  
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
       {/* ------- todo header */}
@@ -17,21 +27,17 @@ export default function Activity(){
         <AddButton />
       </div>
       {/* ------ todo content dashboard */}
-      <div className="dashboard-content flex flex-wrap">
-        <Link to="detail/10029" ><ActivityCard /></Link>
-        <Link to="detail/10029" ><ActivityCard /></Link>
-        <Link to="detail/10029" ><ActivityCard /></Link>
-        <Link to="detail/10029" ><ActivityCard /></Link>
-        <ActivityCard />
-        <ActivityCard />
-        <ActivityCard />
-        <ActivityCard />
-        <ActivityCard />
-        <ActivityCard />
-      </div>
-      {/* <div className="dashboard-content flex flex-wrap justify-center">
-        <img className="justify-items-center" src={EmptyActivityImage} alt="activity" />
-      </div> */}
+      { total <= 0 ? <EmptyActivity /> : 
+        <div className="dashboard-content flex flex-wrap">
+          { act.map(activity => 
+            <div key={activity.id}>
+              <Link to={`detail/${activity.id}`}>
+                <ActivityCard />
+              </Link>
+            </div>)}
+        </div>
+      }
+
     </div>
   );
 }
