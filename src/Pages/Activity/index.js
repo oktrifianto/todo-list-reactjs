@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import ActivityCard from '../../Components/Activity/ActivityCard';
 import AddButton from '../../Components/Button/AddButton';
 import EmptyActivity from '../../Components/Activity/EmptyActivity';
@@ -21,7 +20,12 @@ export default function Activity(){
   const addActivity = async () => {
     const result = await createActivity();
     if (result.status === 201){
-      console.log('Sukses bikin activity group');
+      checkTotalActivity().then(data => {
+        setTotal(data.total);
+        if (data.total > 0) {
+          setAct(data.data);
+        }
+      });
     } 
   }
   
@@ -38,9 +42,7 @@ export default function Activity(){
         <div className="dashboard-content flex flex-wrap">
           { act.map(activity => 
             <div key={activity.id}>
-              <Link to={`detail/${activity.id}`}>
-                <ActivityCard title={activity.title} date={activity.created_at} />
-              </Link>
+              <ActivityCard id={activity.id} title={activity.title} date={activity.created_at} />
             </div>)}
         </div>
       }
