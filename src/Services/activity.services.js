@@ -8,3 +8,15 @@ export async function checkTotalActivity(){
     return error.response;
   }
 }
+
+export async function createActivity(){
+  try {
+    const response = await axiosAuth.post(`/activity-groups`, {
+      title: "New Activity",
+      email: process.env.REACT_APP_EMAIL
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
