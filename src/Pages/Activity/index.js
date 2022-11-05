@@ -18,7 +18,6 @@ export default function Activity(){
       </div>
       {/* ------ todo content dashboard */}
       <div className="dashboard-content flex flex-wrap">
-        {/* <img src={EmptyActivityImage} alt="activity" /> */}
         <Link to="detail/10029" ><ActivityCard /></Link>
         <Link to="detail/10029" ><ActivityCard /></Link>
         <Link to="detail/10029" ><ActivityCard /></Link>
@@ -30,6 +29,9 @@ export default function Activity(){
         <ActivityCard />
         <ActivityCard />
       </div>
+      {/* <div className="dashboard-content flex flex-wrap justify-center">
+        <img className="justify-items-center" src={EmptyActivityImage} alt="activity" />
+      </div> */}
     </div>
   );
 }
