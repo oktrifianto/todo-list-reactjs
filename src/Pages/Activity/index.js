@@ -39,7 +39,7 @@ export default function Activity(){
           { act.map(activity => 
             <div key={activity.id}>
               <Link to={`detail/${activity.id}`}>
-                <ActivityCard />
+                <ActivityCard title={activity.title} date={activity.created_at} />
               </Link>
             </div>)}
         </div>
