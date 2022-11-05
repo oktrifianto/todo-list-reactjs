@@ -20,3 +20,11 @@ export async function createActivity(){
     return error.response;
   }
 }
+
+export async function deleteActivity(id){
+  try {
+    return await axiosAuth.delete(`activity-groups/${id}`);
+  } catch (error) {
+    return error.response;
+  }
+}
