@@ -1,12 +1,28 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from '../../Assets/Icons/back.svg';
 import { ReactComponent as EditIcon } from '../../Assets/Icons/edit.svg';
 import { ReactComponent as SortIcon } from '../../Assets/Icons/sort.svg';
-import ListItemImage from '../../Assets/Images/item.png';
+import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import AddButton from "../../Components/Button/AddButton";
+import { getListItem } from "../../Services/item.services";
 
 export default function ListItem(){
-  const { id } = useParams();
+  const { id } = useParams(); // activity_group_ID
+  const [listItem, setListItem]   = useState([]);
+
+  // render data using useEffect
+  useEffect(() => {
+    getListItem(id).then(result => {
+      if (result.total > 0){
+        setListItem(result.data);
+      } else {
+        setListItem([]); // no data
+      }
+    });
+  }, [id]);
+
+
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
       {/* ---- todo header */}
@@ -28,10 +44,11 @@ export default function ListItem(){
       
       {/* --- content --- */}
       <div className="item-content">
-        <h1>List Item Number : { id }</h1>
         <div className="empty-item flex justify-center">
-          <img src={ListItemImage} alt="listitem" />
-          {/* list card here */}
+          { listItem.length <= 0 && <EmptyListItem /> }
+          { listItem.length > 0 && listItem.map( item => 
+            <div key={item.id}><p>{item.title}</p></div>
+          )}
         </div>
       </div>
     </div>
