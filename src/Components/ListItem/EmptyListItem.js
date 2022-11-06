@@ -1,5 +1,11 @@
 import ListItemImage from '../../Assets/Images/item.png';
 
 export default function EmptyListItem(){
-  return <img src={ListItemImage} alt="listitem" />;
+  return (
+    <div className="item-content">
+      <div className="empty-item flex justify-center">
+        <img src={ListItemImage} alt="listitem" />
+      </div>
+    </div>
+  );
 }
