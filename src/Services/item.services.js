@@ -18,3 +18,11 @@ export async function getListItem(id_group){
    return error.response; 
   }
 }
+
+export async function deleteListItem(item_id){
+  try {
+    return await axiosAuth.delete(`/todo-items/${item_id}`);
+  } catch (error) {
+    return error.response;
+  }
+}
