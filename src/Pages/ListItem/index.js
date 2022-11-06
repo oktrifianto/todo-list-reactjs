@@ -7,20 +7,25 @@ import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import AddButton from "../../Components/Button/AddButton";
 import { getDetailActivity } from "../../Services/item.services";
 import ListCard from "../../Components/ListItem/ListCard";
+import Spinner from "../../Components/Spinner/Spinner";
 
 export default function ListItem(){
   const { id } = useParams(); // activity_group_ID
   const [listItem, setListItem]   = useState([]);
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchActivity = async (id) => {
       const result = await getDetailActivity(id);
       if (result.todo_items.length > 0){
         setListItem(result.todo_items);
         setTitle(result.title);
+        setTimeout(() => setLoading(false), 1000);
       } else {
         setListItem([]);
+        setTimeout(() => setLoading(false), 1000);
       }
     }
 
@@ -33,7 +38,7 @@ export default function ListItem(){
       <div className="todo-header flex justify-between mt-12 mb-14">
         <div className="todo-title flex items-center">
           <Link to="/"><BackIcon className="mr-4 w-8 h-8"/></Link>
-          <h1 className="text-4xl font-bold">{title}</h1>
+          <h1 className="text-4xl font-bold">{title || 'New Activity'}</h1>
           <EditIcon className="ml-8 w-6 h-6"/>
         </div>
         <div className="flex">
@@ -47,16 +52,24 @@ export default function ListItem(){
       </div>
       
       {/* --- content --- */}
-      <div className="detail-content">
-        { listItem.length <= 0 && <EmptyListItem /> }
-        { listItem.length > 0 && listItem.map( item => 
+      { !loading && 
+        <div className="detail-content">
+          { listItem.length <= 0 && <EmptyListItem /> }
+          { listItem.length > 0 && listItem.map( item => 
             <div key={item.id}>
               <ListCard
-                title={item.title} />
-            </div>
-          )}
-      </div>
+                id={item.id}
+                title={item.title}
+                priority={item.priority}
+                is_active={item.is_active} />
+              </div>
+            )}
+        </div>
+      }
 
+
+      {/* { showAddList && <ModalAddList />} */}
+      { loading && <Spinner />}
     </div>
   );
 }
