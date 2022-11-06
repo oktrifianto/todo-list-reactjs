@@ -5,23 +5,27 @@ import { ReactComponent as EditIcon } from '../../Assets/Icons/edit.svg';
 import { ReactComponent as SortIcon } from '../../Assets/Icons/sort.svg';
 import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import AddButton from "../../Components/Button/AddButton";
-import { getListItem } from "../../Services/item.services";
+import { getDetailActivity } from "../../Services/item.services";
+import ListCard from "../../Components/ListItem/ListCard";
 
 export default function ListItem(){
   const { id } = useParams(); // activity_group_ID
   const [listItem, setListItem]   = useState([]);
+  const [title, setTitle] = useState("");
 
-  // render data using useEffect
   useEffect(() => {
-    getListItem(id).then(result => {
-      if (result.total > 0){
-        setListItem(result.data);
+    const fetchActivity = async (id) => {
+      const result = await getDetailActivity(id);
+      if (result.todo_items.length > 0){
+        setListItem(result.todo_items);
+        setTitle(result.title);
       } else {
-        setListItem([]); // no data
+        setListItem([]);
       }
-    });
-  }, [id]);
+    }
 
+    fetchActivity(id).catch(console.error);
+  }, [id]);
 
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
@@ -29,7 +33,7 @@ export default function ListItem(){
       <div className="todo-header flex justify-between mt-12 mb-14">
         <div className="todo-title flex items-center">
           <Link to="/"><BackIcon className="mr-4 w-8 h-8"/></Link>
-          <h1 className="text-4xl font-bold">Name from Activity</h1>
+          <h1 className="text-4xl font-bold">{title}</h1>
           <EditIcon className="ml-8 w-6 h-6"/>
         </div>
         <div className="flex">
@@ -43,14 +47,16 @@ export default function ListItem(){
       </div>
       
       {/* --- content --- */}
-      <div className="item-content">
-        <div className="empty-item flex justify-center">
-          { listItem.length <= 0 && <EmptyListItem /> }
-          { listItem.length > 0 && listItem.map( item => 
-            <div key={item.id}><p>{item.title}</p></div>
+      <div className="detail-content">
+        { listItem.length <= 0 && <EmptyListItem /> }
+        { listItem.length > 0 && listItem.map( item => 
+            <div key={item.id}>
+              <ListCard
+                title={item.title} />
+            </div>
           )}
-        </div>
       </div>
+
     </div>
   );
 }
