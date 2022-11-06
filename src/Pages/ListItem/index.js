@@ -5,15 +5,18 @@ import { ReactComponent as EditIcon } from '../../Assets/Icons/edit.svg';
 import { ReactComponent as SortIcon } from '../../Assets/Icons/sort.svg';
 import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import AddButton from "../../Components/Button/AddButton";
-import { getDetailActivity } from "../../Services/item.services";
+import { deleteListItem, getDetailActivity } from "../../Services/item.services";
 import ListCard from "../../Components/ListItem/ListCard";
 import Spinner from "../../Components/Spinner/Spinner";
+import ModalDelete from "../../Components/Modal/ModalDelete";
 
 export default function ListItem(){
   const { id } = useParams(); // activity_group_ID
   const [listItem, setListItem]   = useState([]);
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(false);
+  const [delItemID, setDelItemID] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -31,6 +34,15 @@ export default function ListItem(){
 
     fetchActivity(id).catch(console.error);
   }, [id]);
+
+  const removeListItem = async (item_id) => {
+    setLoading(true);
+    const result = await deleteListItem(item_id);
+    if (result.status === 200) {
+      console.log('berhasil delete' + item_id);
+      setTimeout(() => setLoading(false), 500);
+    }
+  }
 
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
@@ -61,7 +73,9 @@ export default function ListItem(){
                 id={item.id}
                 title={item.title}
                 priority={item.priority}
-                is_active={item.is_active} />
+                is_active={item.is_active}
+                setDeleteItem={setDeleteItem}
+                setDelItemID={setDelItemID} />
               </div>
             )}
         </div>
@@ -69,6 +83,7 @@ export default function ListItem(){
 
 
       {/* { showAddList && <ModalAddList />} */}
+      { deleteItem && <ModalDelete hasDelete={() => removeListItem(delItemID)}/>}
       { loading && <Spinner />}
     </div>
   );
