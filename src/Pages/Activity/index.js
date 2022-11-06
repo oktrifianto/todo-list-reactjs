@@ -5,6 +5,7 @@ import EmptyActivity from '../../Components/Activity/EmptyActivity';
 import { checkTotalActivity, createActivity, deleteActivity } from '../../Services/activity.services';
 import ModalDelete from '../../Components/Modal/ModalDelete';
 import Spinner from '../../Components/Spinner/Spinner';
+import LoadingButton from '../../Components/Button/AddLoadingButton';
 
 export default function Activity(){
   const [total, setTotal] = useState("");
@@ -12,6 +13,7 @@ export default function Activity(){
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [deletedId, setDeletedId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -25,12 +27,14 @@ export default function Activity(){
   }, [total]);
 
   const addActivity = async () => {
+    setLoadingButton(true);
     const result = await createActivity();
     if (result.status === 201){
       checkTotalActivity().then(data => {
         setTotal(data.total);
         if (data.total > 0) {
           setAct(data.data);
+          setLoadingButton(false);
         }
       });
     } 
@@ -53,7 +57,7 @@ export default function Activity(){
     <div className="container max-w-5xl my-0 mx-auto mt-5">
       <div className="todo-header flex justify-between mt-12 mb-14">
         <h1 className="text-4xl font-bold">Activity</h1>
-        <AddButton isClickButton={addActivity} />
+        { !loadingButton ? <AddButton isClickButton={addActivity} /> : <LoadingButton /> }
       </div>
       { !loading && 
         <>
