@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import ActivityCard from '../../Components/Activity/ActivityCard';
 import AddButton from '../../Components/Button/AddButton';
 import EmptyActivity from '../../Components/Activity/EmptyActivity';
-import { checkTotalActivity, createActivity } from '../../Services/activity.services';
+import { checkTotalActivity, createActivity, deleteActivity } from '../../Services/activity.services';
+import ModalDelete from '../../Components/Modal/ModalDelete';
 
 export default function Activity(){
   const [total, setTotal] = useState("");
   const [act, setAct] = useState({});
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [deletedId, setDeletedId] = useState('');
 
   useEffect(() => {
     checkTotalActivity().then( data => {
@@ -28,6 +31,19 @@ export default function Activity(){
       });
     } 
   }
+
+  const removeActivityGroup = async (id) => {
+    const result = await deleteActivity(id);
+    if (result.status === 200){
+      setDeleteAlert(false);
+      checkTotalActivity().then(data => {
+        setTotal(data.total);
+        if (data.total > 0) {
+          setAct(data.data);
+        }
+      });
+    }
+  }
   
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
@@ -42,11 +58,17 @@ export default function Activity(){
         <div className="dashboard-content flex flex-wrap">
           { act.map(activity => 
             <div key={activity.id}>
-              <ActivityCard id={activity.id} title={activity.title} date={activity.created_at} />
+              <ActivityCard 
+                id={activity.id} 
+                title={activity.title} 
+                date={activity.created_at} 
+                setDeleteAlert={setDeleteAlert}
+                setDeletedId={setDeletedId} />
             </div>)}
         </div>
       }
 
+      { deleteAlert && <ModalDelete hasDelete={() => removeActivityGroup(deletedId)} />}
     </div>
   );
 }
