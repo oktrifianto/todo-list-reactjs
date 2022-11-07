@@ -89,6 +89,7 @@ export default function Activity(){
         hasCancel={() => setDeleteAlert(false)}
         hasDelete={() => removeActivityGroup(deletedId)} /> }
       { toast && <Toast />}
+      <div data-cy="modal-information"></div>
     </div>
   );
 }

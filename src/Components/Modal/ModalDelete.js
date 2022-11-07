@@ -5,7 +5,7 @@ import DeleteButton from '../Button/DeleteButton';
 export default function ModalDelete({typeName, hasCancel, hasDelete, setDeleteAlert}){ // @see https://stackoverflow.com/a/66186184
 
   return (
-    <div tabIndex="-1" className="bg-black/50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" onClick={() => setDeleteAlert(false)}>
+    <div tabIndex="-1" className="bg-black/50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" onClick={() => setDeleteAlert(false)} data-cy="modal-delete">
       {/* modal content */}
       <div className="relative pt-20 w-full max-w-lg h-full my-0 mx-auto md:h-auto">
 
