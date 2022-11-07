@@ -6,6 +6,7 @@ import { checkTotalActivity, createActivity, deleteActivity } from '../../Servic
 import ModalDelete from '../../Components/Modal/ModalDelete';
 import Spinner from '../../Components/Spinner/Spinner';
 import LoadingButton from '../../Components/Button/AddLoadingButton';
+import Toast from '../../Components/Toast/Toast';
 
 export default function Activity(){
   const [total, setTotal] = useState("");
@@ -14,6 +15,7 @@ export default function Activity(){
   const [deletedId, setDeletedId] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
+  const [toast, setToast] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -47,7 +49,9 @@ export default function Activity(){
       checkTotalActivity().then(data => {
         setTotal(data.total);
         if (data.total > 0) {
+          setTimeout(() => setToast(true), 500);
           setAct(data.data);
+          setTimeout(() => setToast(false), 2000);
         }
       });
     }
@@ -83,6 +87,7 @@ export default function Activity(){
         typeName="activity" 
         hasCancel={() => setDeleteAlert(false)}
         hasDelete={() => removeActivityGroup(deletedId)} /> }
+      { toast && <Toast />}
     </div>
   );
 }
