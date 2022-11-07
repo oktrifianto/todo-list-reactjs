@@ -79,7 +79,10 @@ export default function Activity(){
       }
 
       { loading && <Spinner /> }
-      { deleteAlert && <ModalDelete hasDelete={() => removeActivityGroup(deletedId)} /> }
+      { deleteAlert && <ModalDelete 
+        typeName="activity" 
+        hasCancel={() => setDeleteAlert(false)}
+        hasDelete={() => removeActivityGroup(deletedId)} /> }
     </div>
   );
 }

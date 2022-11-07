@@ -39,7 +39,6 @@ export default function ListItem(){
     setLoading(true);
     const result = await deleteListItem(item_id);
     if (result.status === 200) {
-      console.log('berhasil delete' + item_id);
       setTimeout(() => setLoading(false), 500);
     }
   }
@@ -81,9 +80,10 @@ export default function ListItem(){
         </div>
       }
 
-
-      {/* { showAddList && <ModalAddList />} */}
-      { deleteItem && <ModalDelete hasDelete={() => removeListItem(delItemID)}/>}
+      { deleteItem && <ModalDelete 
+          typeName="item"
+          hasCancel={() => setDeleteItem(false)}
+          hasDelete={() => removeListItem(delItemID)}/>}
       { loading && <Spinner />}
     </div>
   );
