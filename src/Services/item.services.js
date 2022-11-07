@@ -26,3 +26,14 @@ export async function deleteListItem(item_id){
     return error.response;
   }
 }
+
+export async function updateStatusListItem(item_id, value){
+  try {
+    const response = await axiosAuth.patch(`/todo-items/${item_id}`, {
+      "is_active" : value
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
