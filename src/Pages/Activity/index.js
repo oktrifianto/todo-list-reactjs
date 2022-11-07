@@ -61,7 +61,7 @@ export default function Activity(){
     <div className="container max-w-5xl my-0 mx-auto mt-5">
       <div className="todo-header flex justify-between mt-12 mb-14">
         <h1 className="text-4xl font-bold">Activity</h1>
-        { !loadingButton ? <AddButton isClickButton={addActivity} /> : <LoadingButton /> }
+        { !loadingButton ? <AddButton isClickButton={addActivity} datacy="activity-add-button" /> : <LoadingButton /> }
       </div>
       { !loading && 
         <>

@@ -13,14 +13,14 @@ export default function ModalDelete({typeName, hasCancel, hasDelete}){ // @see h
           {/* modal content */}
           <div className="modal-content p-6 text-center">
             <div className="modal-header">
-              <AlertIcon className="mx-auto mt-4 mb-4 w-20 h-20" />
+              <AlertIcon className="mx-auto mt-4 mb-4 w-20 h-20" data-cy="modal-delete-title" />
             </div>
             <div className="modal-body">
-              <p className="mt-12 mb-12 text-lg font-normal text-gray-800">Apakah anda yakin menghapus {typeName} <strong>"New Activity"</strong></p>
+              <p className="mt-12 mb-12 text-lg font-normal text-gray-800" data-cy="modal-delete-title">Apakah anda yakin menghapus {typeName} <strong>"New Activity"</strong></p>
             </div>
             <div className="modal-footer">
-              <CancelButton hasCancel={hasCancel} />
-              <DeleteButton hasDelete={hasDelete} />
+              <CancelButton hasCancel={hasCancel} datacy="modal-delete-cancel-button" />
+              <DeleteButton hasDelete={hasDelete} datacy="modal-delete-confirm-button" />
             </div>
 
           </div>
