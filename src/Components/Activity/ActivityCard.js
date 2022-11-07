@@ -14,7 +14,7 @@ export default function ActivityCard({id, title, date, setDeleteAlert, setDelete
           </div>
         </Link>
         <div className="activity-footer flex justify-between">
-          <span className="text-[#888888] text-sm">{parseDate}</span>
+          <span className="text-[#888888] text-sm" date-cy="activity-item-date">{parseDate}</span>
           <button onClick={() => { setDeleteAlert(true); setDeletedId(id) } } data-cy="activity-item-delete-button">
             <TrashIcon className="cursor-pointer" />
           </button>

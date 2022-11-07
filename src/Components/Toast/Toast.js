@@ -8,7 +8,7 @@ export default function ToastSuccess() {
           <div className="modal-content p-6 text-center">
             <div className="modal-body flex items-center">
               <span><AlertSuccess /></span>
-              <p className="ml-4 mt-0.75 mb-0.75 text-lg font-normal text-gray-800">Aktivitas berhasil di hapus</p>
+              <p className="ml-4 mt-0.75 mb-0.75 text-lg font-normal text-gray-800" data-cy="modal-information">Aktivitas berhasil di hapus</p>
             </div>
           </div>
         </div>

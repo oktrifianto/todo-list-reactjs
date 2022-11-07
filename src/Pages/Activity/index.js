@@ -84,7 +84,8 @@ export default function Activity(){
 
       { loading && <Spinner /> }
       { deleteAlert && <ModalDelete 
-        typeName="activity" 
+        typeName="activity"
+        setDeleteAlert={setDeleteAlert}
         hasCancel={() => setDeleteAlert(false)}
         hasDelete={() => removeActivityGroup(deletedId)} /> }
       { toast && <Toast />}
