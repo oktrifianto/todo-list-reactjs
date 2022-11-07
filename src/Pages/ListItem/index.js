@@ -9,6 +9,7 @@ import { deleteListItem, getDetailActivity, getListItem } from "../../Services/i
 import ListCard from "../../Components/ListItem/ListCard";
 import Spinner from "../../Components/Spinner/Spinner";
 import ModalDelete from "../../Components/Modal/ModalDelete";
+import ModalAddList from "../../Components/Modal/ModalAddList";
 
 export default function ListItem(){
   const { id } = useParams(); // activity_group_ID
@@ -17,6 +18,7 @@ export default function ListItem(){
   const [loading, setLoading] = useState(false);
   const [deleteItem, setDeleteItem] = useState(false);
   const [delItemID, setDelItemID] = useState('');
+  const [addItem, setAddItem] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -46,6 +48,12 @@ export default function ListItem(){
     }
   }
 
+  const addNewListItem = async () => {
+    // console.log('hehehehe');
+    setAddItem(true); // create modal opened
+    // form ... 
+  }
+
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
       {/* ---- todo header */}
@@ -61,7 +69,7 @@ export default function ListItem(){
               <SortIcon className="h-6 w-6 inline-block"/>
             </button>
           </div>
-          <AddButton />
+          <AddButton isClickButton={addNewListItem} />
         </div>
       </div>
       
@@ -88,6 +96,7 @@ export default function ListItem(){
           hasCancel={() => setDeleteItem(false)}
           hasDelete={() => removeListItem(delItemID)}/>}
       { loading && <Spinner />}
+      { addItem && <ModalAddList setAddItem={setAddItem}/> }
     </div>
   );
 }
