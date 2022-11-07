@@ -5,7 +5,7 @@ import { ReactComponent as EditIcon } from '../../Assets/Icons/edit.svg';
 import { ReactComponent as SortIcon } from '../../Assets/Icons/sort.svg';
 import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import AddButton from "../../Components/Button/AddButton";
-import { deleteListItem, getDetailActivity } from "../../Services/item.services";
+import { deleteListItem, getDetailActivity, getListItem } from "../../Services/item.services";
 import ListCard from "../../Components/ListItem/ListCard";
 import Spinner from "../../Components/Spinner/Spinner";
 import ModalDelete from "../../Components/Modal/ModalDelete";
@@ -36,10 +36,13 @@ export default function ListItem(){
   }, [id]);
 
   const removeListItem = async (item_id) => {
-    setLoading(true);
     const result = await deleteListItem(item_id);
     if (result.status === 200) {
-      setTimeout(() => setLoading(false), 500);
+      setDeleteItem(false);
+      const listItemData = await getListItem(id);
+      if (listItemData.data.length > 0){
+        setListItem(listItemData.data);
+      }
     }
   }
 
