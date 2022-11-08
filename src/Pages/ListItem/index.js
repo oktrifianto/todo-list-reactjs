@@ -10,6 +10,7 @@ import ListCard from "../../Components/ListItem/ListCard";
 import Spinner from "../../Components/Spinner/Spinner";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ModalAddList from "../../Components/Modal/ModalAddList";
+import { updateActivityTitle } from "../../Services/activity.services";
 
 export default function ListItem(){
   const { id } = useParams(); // activity_group_ID
@@ -19,6 +20,7 @@ export default function ListItem(){
   const [deleteItem, setDeleteItem] = useState(false);
   const [delItemID, setDelItemID] = useState('');
   const [addItem, setAddItem] = useState(false);
+  const [cTitle, setCTitle] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -54,14 +56,34 @@ export default function ListItem(){
     // form ... 
   }
 
+  const changeTitle = async (e) => {
+    const result = await updateActivityTitle(id, e.target.value);
+    if (result.status === 200) {
+      setTitle(e.target.value);
+    }
+  }
+
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
-      {/* ---- todo header */}
       <div className="todo-header flex justify-between mt-12 mb-14">
         <div className="todo-title flex items-center">
-          <Link to="/"><BackIcon className="mr-4 w-8 h-8"/></Link>
-          <h1 className="text-4xl font-bold" data-cy="todo-title">{title || 'New Activity'}</h1>
-          <EditIcon className="ml-8 w-6 h-6"/>
+          <Link to="/"><BackIcon className="mr-4 w-8 h-8" data-cy="todo-back-button"/></Link>
+          { cTitle ? 
+            (
+              <h1 className="text-4xl font-bold" 
+                data-cy="todo-title" 
+                onClick={() => setCTitle(false)}
+              >{title || 'New Activity'}</h1>
+            ) : (
+              <input autoFocus 
+                type="text"
+                className="text-4xl font-bold"
+                onClick={() => setCTitle(true)}
+                onBlur={(e) => {changeTitle(e); setCTitle(true)}}
+                defaultValue={title} />
+            )
+          }
+          <EditIcon className="ml-8 w-6 h-6 cursor-pointer" data-cy="todo-title-edit-button" onClick={() => setCTitle(false)} />
         </div>
         <div className="flex">
           <div className="dropdown">
