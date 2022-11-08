@@ -48,14 +48,13 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
                   <select
                     onChange={handleChange} 
                     name="priority" 
-                    data-cy="modal-add-priority-dropdown"
                     className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                      <option value="select">Select Priority</option>
-                      <option value="very-high">Very High</option>
-                      <option value="high">High</option>
-                      <option value="normal">Normal</option>
-                      <option value="low">Low</option>
-                      <option value="very-low">Very Low</option>
+                      <option data-cy="modal-add-priority-item" value="select">Select Priority</option>
+                      <option data-cy="modal-add-priority-item" value="very-high">Very High</option>
+                      <option data-cy="modal-add-priority-item" value="high">High</option>
+                      <option data-cy="modal-add-priority-item" value="normal">Normal</option>
+                      <option data-cy="modal-add-priority-item" value="low">Low</option>
+                      <option data-cy="modal-add-priority-item" value="very-low">Very Low</option>
                   </select>
                 </div>
 
