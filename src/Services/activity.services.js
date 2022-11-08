@@ -28,3 +28,14 @@ export async function deleteActivity(id){
     return error.response;
   }
 }
+
+export async function updateActivityTitle(id, title){
+  try {
+    const response = await axiosAuth.patch(`activity-groups/${id}`, {
+      "title" : title
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
