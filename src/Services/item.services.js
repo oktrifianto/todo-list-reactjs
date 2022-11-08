@@ -37,3 +37,17 @@ export async function updateStatusListItem(item_id, value){
     return error.response;
   }
 }
+
+export async function AddListItem(id, data){
+  try {
+    const request = {
+      "activity_group_id" : id,
+      "title" : data.title,
+      "priority" : data.priority
+    }
+    const response = await axiosAuth.post('/todo-items', request);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
