@@ -1,5 +1,3 @@
-// const colors = ['#7a5195', '#bc5090','#ef5675'];
-
 export default function Indicator({priority}){
   // let color;
   // if (priority === 'very-high') color = '#ed4c5c';
@@ -9,6 +7,6 @@ export default function Indicator({priority}){
   // if (priority === 'very-low') color = '#8942c1';
 
   return (
-    <span className={`inline-flex items-center p-[7px] mr-4 ml-3 text-sm font-semibold bg-[${ priority === 'very-high' ? '#ed4c5c' : priority === 'high' ? '#f8a541' : priority === 'normal' ? '#00a790' : priority === 'low' ? '#428bc1' : priority === 'very-low' ? '#8942c1' : ''}] rounded-full`}></span>
+    <span className={`inline-flex items-center p-[7px] mr-4 ml-3 text-sm font-semibold rounded-full`} style={{ backgroundColor: `${priority === 'very-high' ? '#ed4c5c' : priority === 'high' ? '#f8a541' : priority === 'normal' ? '#00a790' : priority === 'low' ? '#428bc1' : priority === 'very-low' ? '#8942c1' : '' }`}}></span>
   );
 }
