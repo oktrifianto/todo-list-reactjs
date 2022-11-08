@@ -115,6 +115,7 @@ export default function ListItem(){
 
       { deleteItem && <ModalDelete 
           typeName="item"
+          setDeleteAlert={setDeleteItem}
           hasCancel={() => setDeleteItem(false)}
           hasDelete={() => removeListItem(delItemID)}/>}
       { loading && <Spinner />}
