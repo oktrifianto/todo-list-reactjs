@@ -60,7 +60,7 @@ export default function ListItem(){
       <div className="todo-header flex justify-between mt-12 mb-14">
         <div className="todo-title flex items-center">
           <Link to="/"><BackIcon className="mr-4 w-8 h-8"/></Link>
-          <h1 className="text-4xl font-bold">{title || 'New Activity'}</h1>
+          <h1 className="text-4xl font-bold" data-cy="todo-title">{title || 'New Activity'}</h1>
           <EditIcon className="ml-8 w-6 h-6"/>
         </div>
         <div className="flex">
@@ -69,7 +69,7 @@ export default function ListItem(){
               <SortIcon className="h-6 w-6 inline-block"/>
             </button>
           </div>
-          <AddButton isClickButton={addNewListItem} />
+          <AddButton isClickButton={addNewListItem} datacy="todo-add-button" />
         </div>
       </div>
       

@@ -13,11 +13,11 @@ export default function ModalAddList({setAddItem}){
             </div>
             <div className="modal-body">
               <form className="p-8"> {/* https://flowbite.com/docs/components/forms/#default-form*/}
-                <div class="mb-6">
-                    <label for="email" class="text-left block mb-2 text-sm font-medium text-gray-900">NAMA LIST ITEM</label>
-                    <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tambahkan Nama List" required />
+                <div className="mb-6">
+                    <label for="email" className="text-left block mb-2 text-sm font-medium text-gray-900">NAMA LIST ITEM</label>
+                    <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tambahkan Nama List" required />
                   </div>
-                  <div class="mb-6">
+                  <div className="mb-6">
                     {/* <label for="password" class="text-left block mb-2 text-sm font-medium text-gray-900">PRIORITY</label>
                     <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required /> */}
                     
