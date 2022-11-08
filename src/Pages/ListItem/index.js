@@ -118,7 +118,7 @@ export default function ListItem(){
           hasCancel={() => setDeleteItem(false)}
           hasDelete={() => removeListItem(delItemID)}/>}
       { loading && <Spinner />}
-      { addItem && <ModalAddList setAddItem={setAddItem}/> }
+      { addItem && <ModalAddList setAddItem={setAddItem} id_group={id} /> }
     </div>
   );
 }
