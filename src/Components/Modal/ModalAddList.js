@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { ReactComponent as CloseIcon } from '../../Assets/Icons/close.svg';
-import { AddListItem } from '../../Services/item.services';
+import { AddListItem, getListItem } from '../../Services/item.services';
 import SaveButton from '../Button/SaveButton';
 
-export default function ModalAddList({setAddItem, id_group}){
+export default function ModalAddList({setLoading, setListItem, setAddItem, id_group}){
   const [newList, setNewList] = useState({ title: "", priority: ""});
 
   const handleChange = e => {
@@ -13,9 +13,13 @@ export default function ModalAddList({setAddItem, id_group}){
   }
 
   const createNewListItem = async () => {
+    setLoading(true);
     const result = await AddListItem(id_group, newList);
     if (result.status === 201) {
-      setTimeout(() => setAddItem(false), 100);
+      setAddItem(false);
+      setTimeout(() => setLoading(false), 1000);
+      const list = await getListItem(id_group);
+      setListItem(list.data);
     }
   }
 
