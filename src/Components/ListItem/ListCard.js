@@ -38,8 +38,8 @@ export default function ListCard({id, title, priority, is_active, setDeleteItem,
       </div>
 
       {/* trash icon */}
-      <button onClick={() => { setDeleteItem(true); setDelItemID(id) } }>
-        <TrashIcon className="cursor-pointer" data-cy="todo-item-delete-button" />
+      <button data-cy="todo-item-delete-button" onClick={() => { setDeleteItem(true); setDelItemID(id) } }>
+        <TrashIcon className="cursor-pointer" />
       </button>
     </div>
   );
