@@ -8,17 +8,17 @@ import { ReactComponent as SIconOldest } from '../../Assets/Icons/sort-oldest.sv
 import { ReactComponent as SIconAsc} from '../../Assets/Icons/sort-a-alpha.svg';
 import { ReactComponent as SIconDsc} from '../../Assets/Icons/sort-d-alpha.svg';
 import { ReactComponent as SIconActive} from '../../Assets/Icons/sort-active.svg';
-import EmptyListItem from '../../Components/ListItem/EmptyListItem';
-import AddButton from "../../Components/Button/AddButton";
-import { deleteListItem, getDetailActivity, getListItem } from "../../Services/item.services";
-import ListCard from "../../Components/ListItem/ListCard";
 import Spinner from "../../Components/Spinner/Spinner";
+import AddButton from "../../Components/Button/AddButton";
+import ListCard from "../../Components/ListItem/ListCard";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ModalAddList from "../../Components/Modal/ModalAddList";
+import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import { updateActivityTitle } from "../../Services/activity.services";
+import { deleteListItem, getDetailActivity, getListItem } from "../../Services/item.services";
 
 export default function ListItem(){
-  const { id } = useParams(); // activity_group_ID
+  const { id } = useParams();
   const [listItem, setListItem]   = useState([]);
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
@@ -91,7 +91,7 @@ export default function ListItem(){
             <button className="rounded-full border h-[54px] w-[54px] mr-6" onClick={() => setOpenSort(open => !open)}>
               <SortIcon className="h-6 w-6 inline-block" />
             </button>
-            {/* dropdown here */}
+
             { isOpenSort && (
                 <div className="absolute">
                   <div className="mt-1 w-[235px]">
@@ -133,7 +133,6 @@ export default function ListItem(){
         </div>
       </div>
       
-      {/* --- content --- */}
       { !loading && 
         <div className="detail-content">
           { listItem.length <= 0 && <EmptyListItem /> }
