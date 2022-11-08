@@ -3,6 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from '../../Assets/Icons/back.svg';
 import { ReactComponent as EditIcon } from '../../Assets/Icons/edit.svg';
 import { ReactComponent as SortIcon } from '../../Assets/Icons/sort.svg';
+import { ReactComponent as SIconNewest } from '../../Assets/Icons/sort-newest.svg';
+import { ReactComponent as SIconOldest } from '../../Assets/Icons/sort-oldest.svg';
+import { ReactComponent as SIconAsc} from '../../Assets/Icons/sort-a-alpha.svg';
+import { ReactComponent as SIconDsc} from '../../Assets/Icons/sort-d-alpha.svg';
+import { ReactComponent as SIconActive} from '../../Assets/Icons/sort-active.svg';
 import EmptyListItem from '../../Components/ListItem/EmptyListItem';
 import AddButton from "../../Components/Button/AddButton";
 import { deleteListItem, getDetailActivity, getListItem } from "../../Services/item.services";
@@ -21,6 +26,7 @@ export default function ListItem(){
   const [delItemID, setDelItemID] = useState('');
   const [addItem, setAddItem] = useState(false);
   const [cTitle, setCTitle] = useState(true);
+  const [isOpenSort, setOpenSort] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +38,7 @@ export default function ListItem(){
         setTimeout(() => setLoading(false), 1000);
       } else {
         setListItem([]);
+        setTitle(result.title);
         setTimeout(() => setLoading(false), 1000);
       }
     }
@@ -48,12 +55,6 @@ export default function ListItem(){
         setListItem(listItemData.data);
       }
     }
-  }
-
-  const addNewListItem = async () => {
-    // console.log('hehehehe');
-    setAddItem(true); // create modal opened
-    // form ... 
   }
 
   const changeTitle = async (e) => {
@@ -73,7 +74,7 @@ export default function ListItem(){
               <h1 className="text-4xl font-bold" 
                 data-cy="todo-title" 
                 onClick={() => setCTitle(false)}
-              >{title || 'New Activity'}</h1>
+              >{title}</h1>
             ) : (
               <input autoFocus 
                 type="text"
@@ -86,12 +87,49 @@ export default function ListItem(){
           <EditIcon className="ml-8 w-6 h-6 cursor-pointer" data-cy="todo-title-edit-button" onClick={() => setCTitle(false)} />
         </div>
         <div className="flex">
-          <div className="dropdown">
-            <button className="rounded-full border h-[54px] w-[54px] mr-6">
-              <SortIcon className="h-6 w-6 inline-block"/>
+          <div className="dropdown relative">
+            <button className="rounded-full border h-[54px] w-[54px] mr-6" onClick={() => setOpenSort(open => !open)}>
+              <SortIcon className="h-6 w-6 inline-block" />
             </button>
+            {/* dropdown here */}
+            { isOpenSort && (
+                <div className="absolute">
+                  <div className="mt-1 w-[235px]">
+                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc", borderTopLeftRadius: "6px", borderTopRightRadius: "6px"}}>
+                      <div className="flex py-3 px-6">
+                        <SIconNewest className="h-6 w-6" />
+                        <span className="ml-4">Terbaru</span>
+                      </div>
+                    </div>
+                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                      <div className="flex py-3 px-6">
+                          <SIconOldest className="h-6 w-6" />
+                          <span className="ml-4">Terlama</span>
+                      </div>
+                    </div>
+                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                      <div className="flex py-3 px-6">
+                          <SIconAsc className="h-6 w-6" />
+                          <span className="ml-4">A - Z</span>
+                      </div>
+                    </div>
+                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                      <div className="flex py-3 px-6">
+                          <SIconDsc className="h-6 w-6" />
+                          <span className="ml-4">Z - A</span>
+                      </div>
+                    </div>
+                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                      <div className="flex py-3 px-6">
+                          <SIconActive className="h-6 w-6" />
+                          <span className="ml-4">Belum Selesai</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            )}
           </div>
-          <AddButton isClickButton={addNewListItem} datacy="todo-add-button" />
+          <AddButton isClickButton={() => setAddItem(true)} datacy="todo-add-button" />
         </div>
       </div>
       
