@@ -27,6 +27,7 @@ export default function ListCard({id, title, priority, is_active, setDeleteItem,
     <div className="content-item flex justify-between p-7 mb-4 bg-white rounded-xl border border-gray-200 shadow-md">
       <div className="flex items-center">
         <input
+          data-cy="todo-item-checkbox"
           value={isChecked} 
           onChange={handleChange}
           type="checkbox"
