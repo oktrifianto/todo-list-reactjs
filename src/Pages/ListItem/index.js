@@ -27,6 +27,8 @@ export default function ListItem(){
   const [addItem, setAddItem] = useState(false);
   const [cTitle, setCTitle] = useState(true);
   const [isOpenSort, setOpenSort] = useState(false);
+  const [isSortedList, setSortedList] = useState([]);
+  const [isSorted, setSorted] = useState(false); // to check state have been sorted.
 
   useEffect(() => {
     setLoading(true);
@@ -64,6 +66,36 @@ export default function ListItem(){
     }
   }
 
+  const sortByOldest = async () => {
+    const sortData = listItem.sort((a, b) => a.id - b.id);
+    setSortedList(sortData);
+  }
+
+  const sortByNewest = async () => {
+    const sortData = listItem.sort((a, b) =>  b.id - a.id);
+    setSortedList(sortData);
+  }
+
+  const sortByAZ = async () => {
+    const sortData = listItem.sort((a, b) => {
+      return a.title.localeCompare(b.title);
+    });
+    setSortedList(sortData);
+  }
+
+  const sortByZA = async () => {
+    const sortData = listItem.sort((a, b) => b.title.localeCompare(a.title));
+    setSortedList(sortData);
+  }
+
+  const sortIsActive = async () => {
+    const sortData = listItem.filter((x) => {
+      return x.is_active === 1;
+    });
+    console.log(sortData);
+    setSortedList(sortData);
+  }
+
   return (
     <div className="container max-w-5xl my-0 mx-auto mt-5">
       <div className="todo-header flex justify-between mt-12 mb-14">
@@ -96,31 +128,31 @@ export default function ListItem(){
                 <div className="absolute">
                   <div className="mt-1 w-[235px]">
                     <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc", borderTopLeftRadius: "6px", borderTopRightRadius: "6px"}}>
-                      <div className="flex py-3 px-6">
+                      <div className="flex py-3 px-6" onClick={() => sortByNewest()}>
                         <SIconNewest className="h-6 w-6" />
                         <span className="ml-4">Terbaru</span>
                       </div>
                     </div>
                     <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
-                      <div className="flex py-3 px-6">
+                      <div className="flex py-3 px-6" onClick={() => sortByOldest()}>
                           <SIconOldest className="h-6 w-6" />
                           <span className="ml-4">Terlama</span>
                       </div>
                     </div>
                     <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
-                      <div className="flex py-3 px-6">
+                      <div className="flex py-3 px-6" onClick={() => sortByAZ()}>
                           <SIconAsc className="h-6 w-6" />
                           <span className="ml-4">A - Z</span>
                       </div>
                     </div>
                     <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
-                      <div className="flex py-3 px-6">
+                      <div className="flex py-3 px-6" onClick={() => sortByZA()}>
                           <SIconDsc className="h-6 w-6" />
                           <span className="ml-4">Z - A</span>
                       </div>
                     </div>
                     <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
-                      <div className="flex py-3 px-6">
+                      <div className="flex py-3 px-6" onClick={() => sortIsActive()}>
                           <SIconActive className="h-6 w-6" />
                           <span className="ml-4">Belum Selesai</span>
                       </div>
@@ -133,7 +165,41 @@ export default function ListItem(){
         </div>
       </div>
       
-      { !loading && 
+      { !loading ?
+        ( <div className="detail-content">
+          { listItem.length <= 0 && <EmptyListItem /> }
+          { listItem.length > 0 && listItem.map( item => 
+            <div key={item.id}>
+              <ListCard
+                id={item.id}
+                title={item.title}
+                priority={item.priority}
+                is_active={item.is_active}
+                setDeleteItem={setDeleteItem}
+                setDelItemID={setDelItemID} />
+              </div>
+            )}
+        </div>
+        ) : ( isSorted? (
+                <div className="detail-content">
+                  { isSortedList.length <= 0 && <EmptyListItem /> }
+                  { isSortedList.length > 0 && isSortedList.map( item => 
+                    <div key={item.id}>
+                      <ListCard
+                        id={item.id}
+                        title={item.title}
+                        priority={item.priority}
+                        is_active={item.is_active}
+                        setDeleteItem={setDeleteItem}
+                        setDelItemID={setDelItemID} />
+                      </div>
+                    )}
+                </div>
+          ) : ''
+        )
+      }
+
+      {/* { (!loading && isSorted) && 
         <div className="detail-content">
           { listItem.length <= 0 && <EmptyListItem /> }
           { listItem.length > 0 && listItem.map( item => 
@@ -148,7 +214,7 @@ export default function ListItem(){
               </div>
             )}
         </div>
-      }
+      } */}
 
       { deleteItem && <ModalDelete 
           typeName="item"
