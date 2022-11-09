@@ -33,8 +33,12 @@ export default function ListCard({id, title, priority, is_active, setDeleteItem,
           type="checkbox"
           defaultChecked={is_active === 0 ? true : false}
           className="h-[24px] w-[24px] mr-4 rounded" />
-        <Indicator priority={priority} />
-        <span className={`mr-4 font-medium text-lg ${ isStreak ? 'line-through text-[#888]' : ''}`}>{title}</span>
+        <Indicator 
+          datacy="todo-item-priority-indicator"
+          priority={priority} />
+        <span
+          data-cy="todo-item-title"
+          className={`mr-4 font-medium text-lg ${ isStreak ? 'line-through text-[#888]' : ''}`}>{title}</span>
         <EditIcon />
       </div>
 
