@@ -89,10 +89,7 @@ export default function ListItem(){
   }
 
   const sortIsActive = async () => {
-    const sortData = listItem.filter((x) => {
-      return x.is_active === 1;
-    });
-    console.log(sortData);
+    const sortData = listItem.filter( x => x.is_active === 1 );
     setSortedList(sortData);
   }
 
@@ -120,38 +117,38 @@ export default function ListItem(){
         </div>
         <div className="flex">
           <div className="dropdown relative">
-            <button className="rounded-full border h-[54px] w-[54px] mr-6" onClick={() => setOpenSort(open => !open)}>
+            <button data-cy="todo-sort-button" className="rounded-full border h-[54px] w-[54px] mr-6" onClick={() => setOpenSort(open => !open)}>
               <SortIcon className="h-6 w-6 inline-block" />
             </button>
 
             { isOpenSort && (
                 <div className="absolute">
                   <div className="mt-1 w-[235px]">
-                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc", borderTopLeftRadius: "6px", borderTopRightRadius: "6px"}}>
+                    <div data-cy="sort-selection" className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => { setOpenSort(false); setSorted(true)} } style={{padding: "0", height: "52px", border: "1px solid #ccc", borderTopLeftRadius: "6px", borderTopRightRadius: "6px"}}>
                       <div className="flex py-3 px-6" onClick={() => sortByNewest()}>
-                        <SIconNewest className="h-6 w-6" />
-                        <span className="ml-4">Terbaru</span>
+                        <SIconNewest data-cy="sort-selection-icon" className="h-6 w-6" />
+                        <span data-cy="sort-selection-title" className="ml-4">Terbaru</span>
                       </div>
                     </div>
-                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                    <div data-cy="sort-selection" className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => { setOpenSort(false); setSorted(true)} } style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
                       <div className="flex py-3 px-6" onClick={() => sortByOldest()}>
                           <SIconOldest className="h-6 w-6" />
                           <span className="ml-4">Terlama</span>
                       </div>
                     </div>
-                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                    <div data-cy="sort-selection" className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => { setOpenSort(false); setSorted(true)} } style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
                       <div className="flex py-3 px-6" onClick={() => sortByAZ()}>
                           <SIconAsc className="h-6 w-6" />
                           <span className="ml-4">A - Z</span>
                       </div>
                     </div>
-                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                    <div data-cy="sort-selection" className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => { setOpenSort(false); setSorted(true)} } style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
                       <div className="flex py-3 px-6" onClick={() => sortByZA()}>
                           <SIconDsc className="h-6 w-6" />
                           <span className="ml-4">Z - A</span>
                       </div>
                     </div>
-                    <div className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => setOpenSort(false)} style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
+                    <div data-cy="sort-selection" className="bg-white cursor-pointer hover:bg-slate-200" onClick={() => { setOpenSort(false); setSorted(true)} } style={{padding: "0", height: "52px", border: "1px solid #ccc"}}>
                       <div className="flex py-3 px-6" onClick={() => sortIsActive()}>
                           <SIconActive className="h-6 w-6" />
                           <span className="ml-4">Belum Selesai</span>
@@ -165,8 +162,8 @@ export default function ListItem(){
         </div>
       </div>
       
-      { !loading ?
-        ( <div className="detail-content">
+      { (!loading && !isSorted) &&
+         <div className="detail-content">
           { listItem.length <= 0 && <EmptyListItem /> }
           { listItem.length > 0 && listItem.map( item => 
             <div key={item.id}>
@@ -180,41 +177,24 @@ export default function ListItem(){
               </div>
             )}
         </div>
-        ) : ( isSorted? (
-                <div className="detail-content">
-                  { isSortedList.length <= 0 && <EmptyListItem /> }
-                  { isSortedList.length > 0 && isSortedList.map( item => 
-                    <div key={item.id}>
-                      <ListCard
-                        id={item.id}
-                        title={item.title}
-                        priority={item.priority}
-                        is_active={item.is_active}
-                        setDeleteItem={setDeleteItem}
-                        setDelItemID={setDelItemID} />
-                      </div>
-                    )}
-                </div>
-          ) : ''
-        )
       }
 
-      {/* { (!loading && isSorted) && 
-        <div className="detail-content">
-          { listItem.length <= 0 && <EmptyListItem /> }
-          { listItem.length > 0 && listItem.map( item => 
-            <div key={item.id}>
-              <ListCard
-                id={item.id}
-                title={item.title}
-                priority={item.priority}
-                is_active={item.is_active}
-                setDeleteItem={setDeleteItem}
-                setDelItemID={setDelItemID} />
-              </div>
-            )}
-        </div>
-      } */}
+      { (!loading && isSorted) && 
+          <div className="detail-content">
+            { isSortedList.length <= 0 && <EmptyListItem /> }
+            { isSortedList.length > 0 && isSortedList.map( item => 
+              <div key={item.id}>
+                <ListCard
+                  id={item.id}
+                  title={item.title}
+                  priority={item.priority}
+                  is_active={item.is_active}
+                  setDeleteItem={setDeleteItem}
+                  setDelItemID={setDelItemID} />
+                </div>
+              )}
+          </div>
+      }
 
       { deleteItem && <ModalDelete 
           typeName="item"
