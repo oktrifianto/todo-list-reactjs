@@ -24,6 +24,8 @@ export default function Activity(){
       if (data.total > 0){
         setAct(data.data);
         setTimeout(() => setLoading(false), 1000);
+      } else {
+        setLoading(false);
       }
     });
   }, [total]);
