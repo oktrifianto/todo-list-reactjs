@@ -14,9 +14,9 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
 
   const createNewListItem = async () => {
     setLoading(true);
+    setAddItem(false);
     const result = await AddListItem(id_group, newList);
     if (result.status === 201) {
-      setAddItem(false);
       setTimeout(() => setLoading(false), 1000);
       const list = await getListItem(id_group);
       setListItem(list.data);
@@ -24,9 +24,11 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
   }
 
   return (
-    <div tabIndex="-1" className="bg-black/50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
-      <div className="relative pt-20 w-full max-w-3xl h-full my-0 mx-auto md:h-auto" data-cy="modal-add">
-        <div className="relative bg-white rounded-lg shadow flex items-center" style={{margin: "1.75rem auto"}}>
+    <>
+    <div className="bg-black opacity-80 h-full w-full fixed top-0 left-0 z-51" onClick={() => setAddItem(false)}></div>
+    <div tabIndex="-1"  className="overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50" style={{marginTop: "-600px"}}>
+      <div className="relative w-full max-w-3xl h-full my-0 mx-auto">
+        <div className="relative bg-white rounded-lg shadow flex items-center" style={{margin: "1.75rem auto"}} data-cy="modal-add">
           <div className="modal-content text-center w-full">
             <div className="modal-header flex justify-between p-5" style={{borderBottom: "1px solid #ccc"}}>
               <p className="text-left text-lg font-semibold">Tambahkan List Item</p>
@@ -67,5 +69,6 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
         </div>
       </div>
     </div>
+    </>
   );
 }
