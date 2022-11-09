@@ -24,7 +24,7 @@ export default function ListCard({id, title, priority, is_active, setDeleteItem,
   }
 
   return (
-    <div className="content-item flex justify-between p-7 mb-4 bg-white rounded-xl border border-gray-200 shadow-md">
+    <div className="content-item flex justify-between p-7 mb-4 bg-white rounded-xl border border-gray-200 shadow-md" data-cy="todo-item">
       <div className="flex items-center">
         <input
           data-cy="todo-item-checkbox"
@@ -39,7 +39,7 @@ export default function ListCard({id, title, priority, is_active, setDeleteItem,
         <span
           data-cy="todo-item-title"
           className={`mr-4 font-medium text-lg ${ isStreak ? 'line-through text-[#888]' : ''}`}>{title}</span>
-        <EditIcon />
+        <EditIcon data-cy="todo-item-edit-button" />
       </div>
 
       {/* trash icon */}
