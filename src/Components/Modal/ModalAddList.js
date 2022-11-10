@@ -82,10 +82,10 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
                 <div className="mb-6">
                   <label forhtml="default" data-cy="modal-add-priority-title" className="block mb-2 text-sm font-medium text-gray-900 text-left">PRIORITY</label>
                   <div className="dropdown">
-                    <div onClick={() => setOpenDropdown(true)}>Menu</div>
+                    <div onClick={() => setOpenDropdown(true)} data-cy="modal-add-priority-dropdown">Select Priority</div>
                     { isOpenDropdown ? 
                       (
-                        <ul className="border" onClick={() => setOpenDropdown(false)} data-cy="modal-add-priority-dropdown">
+                        <ul className="border" onClick={() => setOpenDropdown(false)} >
                           <li onClick={() => setValPriority('very-high')} data-cy="modal-add-priority-item">Very High</li>
                           <li onClick={() => setValPriority('high')} data-cy="modal-add-priority-item">High</li>
                           <li onClick={() => setValPriority('normal')} data-cy="modal-add-priority-item">Normal</li>
