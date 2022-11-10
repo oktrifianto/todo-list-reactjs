@@ -94,11 +94,6 @@ export default function ListItem(){
       const sortData = item.sort((a, b) => b.is_active - a.is_active);
       setSortedList(sortData);
     });
-    // data = data.todo_items;
-    // const sortData = data.filter( x => x.is_active === 1 );
-    // setSortedList(sortData);
-    // const sortData = isSortedList.sort((a, b) => b.is_active - a.is_active);
-    // setSortedList(sortData);
   }
 
   return (

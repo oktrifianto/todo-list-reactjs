@@ -53,7 +53,7 @@ export default function Activity(){
         if (data.total > 0) {
           setTimeout(() => setToast(true), 250);
           setAct(data.data);
-          setTimeout(() => setToast(false), 500);
+          setTimeout(() => setToast(false), 400);
         }
       });
     }

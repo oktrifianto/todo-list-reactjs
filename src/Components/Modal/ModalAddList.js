@@ -23,19 +23,13 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
     // setNewList({title: ln, priority: pr});
     const result = await AddListItem(id_group, {title: ln, priority: pr});
     if (result.status === 201) {
-      setTimeout(() => setLoading(false), 1000);
+      setTimeout(() => setLoading(false), 500);
       const list = await getListItem(id_group);
       setListItem(list.data);
     } else {
       setLoading(false);
     }
   }
-
-  // dropdown
-  // const options = [
-  //   'very-high', 'high', 'normal', 'low', 'very-low'
-  // ];
-  // const defaultOption = options[0];
 
   return (
     <>
@@ -101,8 +95,6 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
               </form>
             </div>
             <div className="modal-footer p-4 flex flex-row-reverse" style={{borderTop: "1px solid #ccc"}}>
-              {/* <SaveButton disabled={disabled} datacy="modal-add-save-button" className="text-right" hasClick={() => createNewListItem(listName, valPriority)} /> */}
-
               { !isBtnDisabled ? 
                 ( 
                   <button
