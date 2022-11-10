@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ReactComponent as CloseIcon } from '../../Assets/Icons/close.svg';
 import { AddListItem, getListItem } from '../../Services/item.services';
-// import SaveButton from '../Button/SaveButton';
 
 export default function ModalAddList({setLoading, setListItem, setAddItem, id_group}){
   const [listName, setListName ] = useState("");
@@ -20,10 +19,9 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
   const createNewListItem = async (ln, pr) => {
     setLoading(true);
     setAddItem(false);
-    // setNewList({title: ln, priority: pr});
     const result = await AddListItem(id_group, {title: ln, priority: pr});
     if (result.status === 201) {
-      setTimeout(() => setLoading(false), 500);
+      setTimeout(() => setLoading(false), 300);
       const list = await getListItem(id_group);
       setListItem(list.data);
     } else {
@@ -53,44 +51,32 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
                       data-cy="modal-add-name-input"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tambahkan Nama List" required />
                 </div>
-                {/* <div className="mb-6">
-                  <label forhtml="default" data-cy="modal-add-priority-title" className="block mb-2 text-sm font-medium text-gray-900 text-left">PRIORITY</label> */}
-                  {/* <select
-                    onChange={handleChange} 
-                    name="priority" 
-                    className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                      <option data-cy="modal-add-priority-item" value="select">Select Priority</option>
-                      <option data-cy="modal-add-priority-item" value="very-high">Very High</option>
-                      <option data-cy="modal-add-priority-item" value="high">High</option>
-                      <option data-cy="modal-add-priority-item" value="normal">Normal</option>
-                      <option data-cy="modal-add-priority-item" value="low">Low</option>
-                      <option data-cy="modal-add-priority-item" value="very-low">Very Low</option>
-                  </select> */}
-                  {/* <Dropdown
-                    data-cy="modal-add-priority-dropdown"
-                    options={options} 
-                    onChange={(item => setValPriority(item.value))} value={defaultOption} placeholder="Select an option" /> */}
-                {/* </div> */}
                 <div className="mb-6">
                   <label forhtml="default" data-cy="modal-add-priority-title" className="block mb-2 text-sm font-medium text-gray-900 text-left">PRIORITY</label>
-                  <div className="dropdown">
-                    <div onClick={() => setOpenDropdown(true)} data-cy="modal-add-priority-dropdown">Select Priority</div>
+                  <div className="dropdown relative w-[205px] p-2 border cursor-pointer" style={{borderRadius: "5px"}}>
+                    {/* like button */}
+                    <div onClick={() => setOpenDropdown(true)} data-cy="modal-add-priority-dropdown">
+                      { ( valPriority === 'very-high' ? (<div><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#ed4c5c]"></span>Very High</div>) 
+                        : valPriority === 'high' ? (<div><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#f8a541]"></span>High</div>)
+                        : valPriority === 'normal' ? (<div><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#00a790]"></span>Normal</div>)
+                        : valPriority === 'low' ? (<div><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#428bc1]"></span>Low</div>) 
+                        : valPriority === 'very-low' ? (<div><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#8942c1]"></span>Very Low</div>)
+                        : '') || 'Select Priority '}
+                    </div>
+                    {/* dropdown content */}
                     { isOpenDropdown ? 
                       (
-                        <ul className="border" onClick={() => setOpenDropdown(false)} >
-                          <li onClick={() => setValPriority('very-high')} data-cy="modal-add-priority-item">Very High</li>
-                          <li onClick={() => setValPriority('high')} data-cy="modal-add-priority-item">High</li>
-                          <li onClick={() => setValPriority('normal')} data-cy="modal-add-priority-item">Normal</li>
-                          <li onClick={() => setValPriority('low')} data-cy="modal-add-priority-item">Low</li>
-                          <li onClick={() => setValPriority('very-low')} data-cy="modal-add-priority-item">Very Low</li>
+                        <ul className="text-left mt-3 absolute border bg-white" onClick={() => setOpenDropdown(false)} >
+                          <li onClick={() => setValPriority('very-high')} data-cy="modal-add-priority-item" className="border px-8 py-2 cursor-pointer hover:text-white hover:bg-blue-400"><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#ed4c5c]"></span>Very High</li>
+                          <li onClick={() => setValPriority('high')} data-cy="modal-add-priority-item" className="border px-8 py-2 cursor-pointer hover:text-white hover:bg-blue-400"><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#f8a541]"></span>High</li>
+                          <li onClick={() => setValPriority('normal')} data-cy="modal-add-priority-item" className="border px-8 py-2 cursor-pointer hover:text-white hover:bg-blue-400"><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#00a790]"></span>Normal</li>
+                          <li onClick={() => setValPriority('low')} data-cy="modal-add-priority-item" className="border px-8 py-2 cursor-pointer hover:text-white hover:bg-blue-400"><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#428bc1]"></span>Low</li>
+                          <li onClick={() => setValPriority('very-low')} data-cy="modal-add-priority-item" className="border px-8 py-2 cursor-pointer hover:text-white hover:bg-blue-400"><span className="inline-flex items-center p-[7px] mr-4 text-sm font-semibold rounded-full bg-[#8942c1]"></span>Very Low</li>
                         </ul>
                       ) : null
                     }
                   </div>
                 </div>
-
-                { listName } { " - "}
-                { valPriority }
 
               </form>
             </div>
