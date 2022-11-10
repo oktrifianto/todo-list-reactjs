@@ -1,23 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as CloseIcon } from '../../Assets/Icons/close.svg';
 import { AddListItem, getListItem } from '../../Services/item.services';
-import SaveButton from '../Button/SaveButton';
-// import Dropdown from 'react-dropdown';
-// import 'react-dropdown/style.css';
+// import SaveButton from '../Button/SaveButton';
 
 export default function ModalAddList({setLoading, setListItem, setAddItem, id_group}){
-  // const [newList, setNewList] = useState({ title: "", priority: ""});
   const [listName, setListName ] = useState("");
   const [valPriority, setValPriority] = useState("");
   const [isOpenDropdown, setOpenDropdown] = useState(false);
+  const [isBtnDisabled, setBtnDisabled] = useState(false);
 
-  // const handleChange = e => {
-  //   const newdata = {...newList};
-  //   newdata[e.target.name] = e.target.value;
-  //   console.log(newdata);
-  //   setNewList(newdata);
-  // }
-
+  useEffect(() => {
+    if (valPriority === "" || listName === "") {
+      setBtnDisabled(true);
+    } else {
+      setBtnDisabled(false);
+    }
+  }, [isBtnDisabled, valPriority, listName])
 
   const createNewListItem = async (ln, pr) => {
     setLoading(true);
@@ -42,9 +40,9 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
   return (
     <>
     <div className="bg-black opacity-80 h-full w-full fixed top-0 left-0 z-51" onClick={() => setAddItem(false)}></div>
-    <div tabIndex="-1"  className="overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50" style={{marginTop: "-600px"}}>
-      <div className="relative w-full max-w-3xl h-full my-0 mx-auto">
-        <div className="relative bg-white rounded-lg shadow flex items-center" style={{margin: "1.75rem auto"}} data-cy="modal-add">
+    <div tabIndex="-1" className="overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50">
+      <div className="fixed top-[50%] left-[50%] max-w-3xl my-0 mx-auto" style={{marginTop: "-180px", marginLeft: "-400px"}}>
+        <div className="relative bg-white rounded-lg shadow flex items-center w-[820px]" style={{margin: "1.75rem auto"}} data-cy="modal-add">
           <div className="modal-content text-center w-full">
             <div className="modal-header flex justify-between p-5" style={{borderBottom: "1px solid #ccc"}}>
               <p className="text-left text-lg font-semibold">Tambahkan List Item</p>
@@ -103,7 +101,30 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
               </form>
             </div>
             <div className="modal-footer p-4 flex flex-row-reverse" style={{borderTop: "1px solid #ccc"}}>
-              <SaveButton datacy="modal-add-save-button" className="text-right" hasClick={() => createNewListItem(listName, valPriority)} />
+              {/* <SaveButton disabled={disabled} datacy="modal-add-save-button" className="text-right" hasClick={() => createNewListItem(listName, valPriority)} /> */}
+
+              { !isBtnDisabled ? 
+                ( 
+                  <button
+                      type="button"
+                      data-cy="modal-add-save-button"
+                      onClick={() => createNewListItem(listName, valPriority)}
+                      className="cursor-pointer text-white bg-[#16abf8] text-lg font-semibold rounded-full px-5 py-2.5 mr-2 mb-2 min-w-[170px] h-[54px]"
+                    >
+                      Simpan
+                    </button> 
+                ) : 
+                ( 
+                  <button
+                      disabled
+                      type="button"
+                      data-cy="modal-add-save-button"
+                      className="text-white bg-[#16abf8] opacity-50 text-lg font-semibold rounded-full px-5 py-2.5 mr-2 mb-2 min-w-[170px] h-[54px]"
+                    >
+                      Simpan
+                    </button> 
+                )
+              }
             </div>
           </div>
         </div>
