@@ -23,7 +23,7 @@ export default function Activity(){
       setTotal(data.total);
       if (data.total > 0){
         setAct(data.data);
-        setTimeout(() => setLoading(false), 500);
+        setTimeout(() => setLoading(false), 450);
       } else {
         setLoading(false);
       }
@@ -51,9 +51,9 @@ export default function Activity(){
       checkTotalActivity().then(data => {
         setTotal(data.total);
         if (data.total > 0) {
-          setTimeout(() => setToast(true), 250);
+          setTimeout(() => setToast(true), 200);
           setAct(data.data);
-          setTimeout(() => setToast(false), 400);
+          setTimeout(() => setToast(false), 350);
         }
       });
     }
