@@ -2,26 +2,42 @@ import { useState } from 'react';
 import { ReactComponent as CloseIcon } from '../../Assets/Icons/close.svg';
 import { AddListItem, getListItem } from '../../Services/item.services';
 import SaveButton from '../Button/SaveButton';
+// import Dropdown from 'react-dropdown';
+// import 'react-dropdown/style.css';
 
 export default function ModalAddList({setLoading, setListItem, setAddItem, id_group}){
-  const [newList, setNewList] = useState({ title: "", priority: ""});
+  // const [newList, setNewList] = useState({ title: "", priority: ""});
+  const [listName, setListName ] = useState("");
+  const [valPriority, setValPriority] = useState("");
+  const [isOpenDropdown, setOpenDropdown] = useState(false);
 
-  const handleChange = e => {
-    const newdata = {...newList};
-    newdata[e.target.name] = e.target.value;
-    setNewList(newdata);
-  }
+  // const handleChange = e => {
+  //   const newdata = {...newList};
+  //   newdata[e.target.name] = e.target.value;
+  //   console.log(newdata);
+  //   setNewList(newdata);
+  // }
 
-  const createNewListItem = async () => {
+
+  const createNewListItem = async (ln, pr) => {
     setLoading(true);
     setAddItem(false);
-    const result = await AddListItem(id_group, newList);
+    // setNewList({title: ln, priority: pr});
+    const result = await AddListItem(id_group, {title: ln, priority: pr});
     if (result.status === 201) {
       setTimeout(() => setLoading(false), 1000);
       const list = await getListItem(id_group);
       setListItem(list.data);
+    } else {
+      setLoading(false);
     }
   }
+
+  // dropdown
+  // const options = [
+  //   'very-high', 'high', 'normal', 'low', 'very-low'
+  // ];
+  // const defaultOption = options[0];
 
   return (
     <>
@@ -41,13 +57,13 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
                     <input 
                       type="text" 
                       name="title" 
-                      onChange={handleChange}
+                      onChange={(e) => setListName(e.target.value)}
                       data-cy="modal-add-name-input"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tambahkan Nama List" required />
                 </div>
-                <div className="mb-6">
-                  <label forhtml="default" data-cy="modal-add-priority-title" className="block mb-2 text-sm font-medium text-gray-900 text-left">PRIORITY</label>
-                  <select
+                {/* <div className="mb-6">
+                  <label forhtml="default" data-cy="modal-add-priority-title" className="block mb-2 text-sm font-medium text-gray-900 text-left">PRIORITY</label> */}
+                  {/* <select
                     onChange={handleChange} 
                     name="priority" 
                     className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -57,13 +73,37 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
                       <option data-cy="modal-add-priority-item" value="normal">Normal</option>
                       <option data-cy="modal-add-priority-item" value="low">Low</option>
                       <option data-cy="modal-add-priority-item" value="very-low">Very Low</option>
-                  </select>
+                  </select> */}
+                  {/* <Dropdown
+                    data-cy="modal-add-priority-dropdown"
+                    options={options} 
+                    onChange={(item => setValPriority(item.value))} value={defaultOption} placeholder="Select an option" /> */}
+                {/* </div> */}
+                <div className="mb-6">
+                  <label forhtml="default" data-cy="modal-add-priority-title" className="block mb-2 text-sm font-medium text-gray-900 text-left">PRIORITY</label>
+                  <div className="dropdown">
+                    <div onClick={() => setOpenDropdown(true)}>Menu</div>
+                    { isOpenDropdown ? 
+                      (
+                        <ul className="border" onClick={() => setOpenDropdown(false)} data-cy="modal-add-priority-dropdown">
+                          <li onClick={() => setValPriority('very-high')} data-cy="modal-add-priority-very-high">Very High</li>
+                          <li onClick={() => setValPriority('high')} data-cy="modal-add-priority-high">High</li>
+                          <li onClick={() => setValPriority('normal')} data-cy="modal-add-priority-normal">Normal</li>
+                          <li onClick={() => setValPriority('low')} data-cy="modal-add-priority-low">Low</li>
+                          <li onClick={() => setValPriority('very-low')} data-cy="modal-add-priority-very-low">Very Low</li>
+                        </ul>
+                      ) : null
+                    }
+                  </div>
                 </div>
+
+                { listName } { " - "}
+                { valPriority }
 
               </form>
             </div>
             <div className="modal-footer p-4 flex flex-row-reverse" style={{borderTop: "1px solid #ccc"}}>
-              <SaveButton datacy="modal-add-save-button" className="text-right" hasClick={() => createNewListItem()} />
+              <SaveButton datacy="modal-add-save-button" className="text-right" hasClick={() => createNewListItem(listName, valPriority)} />
             </div>
           </div>
         </div>
