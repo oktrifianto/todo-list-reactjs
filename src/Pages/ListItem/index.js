@@ -37,16 +37,16 @@ export default function ListItem(){
       if (result.todo_items.length > 0){
         setListItem(result.todo_items);
         setTitle(result.title);
-        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setLoading(false), 500);
       } else {
         setListItem([]);
         setTitle(result.title);
-        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setLoading(false), 500);
       }
     }
 
     fetchActivity(id).catch(console.error);
-  }, [id]);
+  }, [id, isSorted]);
 
   const removeListItem = async (item_id) => {
     const result = await deleteListItem(item_id);
@@ -91,7 +91,7 @@ export default function ListItem(){
   const sortIsActive = async () => {
     getDetailActivity(id).then((data) => {
       const item = data.todo_items;
-      const sortData = item.filter( x => x.is_active === 0);
+      const sortData = item.filter( x => x.is_active === 1);
       setSortedList(sortData);
     });
     // data = data.todo_items;
@@ -179,7 +179,8 @@ export default function ListItem(){
                 priority={item.priority}
                 is_active={item.is_active}
                 setDeleteItem={setDeleteItem}
-                setDelItemID={setDelItemID} />
+                setDelItemID={setDelItemID}
+                setSortedList={setSortedList} />
               </div>
             )}
         </div>
