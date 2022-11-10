@@ -91,7 +91,7 @@ export default function ListItem(){
   const sortIsActive = async () => {
     getDetailActivity(id).then((data) => {
       const item = data.todo_items;
-      const sortData = item.filter( x => x.is_active === 1);
+      const sortData = item.filter( x => x.is_active === 0);
       setSortedList(sortData);
     });
     // data = data.todo_items;
