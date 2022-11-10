@@ -86,11 +86,11 @@ export default function ModalAddList({setLoading, setListItem, setAddItem, id_gr
                     { isOpenDropdown ? 
                       (
                         <ul className="border" onClick={() => setOpenDropdown(false)} data-cy="modal-add-priority-dropdown">
-                          <li onClick={() => setValPriority('very-high')} data-cy="modal-add-priority-very-high">Very High</li>
-                          <li onClick={() => setValPriority('high')} data-cy="modal-add-priority-high">High</li>
-                          <li onClick={() => setValPriority('normal')} data-cy="modal-add-priority-normal">Normal</li>
-                          <li onClick={() => setValPriority('low')} data-cy="modal-add-priority-low">Low</li>
-                          <li onClick={() => setValPriority('very-low')} data-cy="modal-add-priority-very-low">Very Low</li>
+                          <li onClick={() => setValPriority('very-high')} data-cy="modal-add-priority-item">Very High</li>
+                          <li onClick={() => setValPriority('high')} data-cy="modal-add-priority-item">High</li>
+                          <li onClick={() => setValPriority('normal')} data-cy="modal-add-priority-item">Normal</li>
+                          <li onClick={() => setValPriority('low')} data-cy="modal-add-priority-item">Low</li>
+                          <li onClick={() => setValPriority('very-low')} data-cy="modal-add-priority-item">Very Low</li>
                         </ul>
                       ) : null
                     }
