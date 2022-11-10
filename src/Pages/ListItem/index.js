@@ -89,7 +89,9 @@ export default function ListItem(){
   }
 
   const sortIsActive = async () => {
-    const sortData = listItem.filter( x => x.is_active === 1 );
+    let data = await getDetailActivity(id); // need fetch again
+    data = data.todo_items;
+    const sortData = data.filter( x => x.is_active === 1 );
     setSortedList(sortData);
   }
 
