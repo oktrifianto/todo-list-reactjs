@@ -27,7 +27,7 @@ export default function ListItem(){
   const [addItem, setAddItem] = useState(false);
   const [cTitle, setCTitle] = useState(true);
   const [isOpenSort, setOpenSort] = useState(false);
-  const [isSortedList, setSortedList] = useState([]);
+  const [isSortedList, setSortedList] = useState([]); // new sorted data
   const [isSorted, setSorted] = useState(false); // to check state have been sorted.
 
   useEffect(() => {
@@ -89,16 +89,16 @@ export default function ListItem(){
   }
 
   const sortIsActive = async () => {
-    // getDetailActivity(id).then((data) => {
-    //   const item = data.todo_items;
-    //   const sortData = item.filter( x => x.is_active === 1);
-    //   setSortedList(sortData);
-    // });
+    getDetailActivity(id).then((data) => {
+      const item = data.todo_items;
+      const sortData = item.sort((a, b) => b.is_active - a.is_active);
+      setSortedList(sortData);
+    });
     // data = data.todo_items;
     // const sortData = data.filter( x => x.is_active === 1 );
     // setSortedList(sortData);
-    const sortData = listItem.sort((a, b) => b.is_active - a.is_active);
-    setSortedList(sortData);
+    // const sortData = isSortedList.sort((a, b) => b.is_active - a.is_active);
+    // setSortedList(sortData);
   }
 
   return (
